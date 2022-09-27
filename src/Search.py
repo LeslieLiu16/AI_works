@@ -1,7 +1,7 @@
 '''
 Author: LeslieLiu16 2596943294@qq.com
 Date: 2022-09-07 18:05:48
-LastEditTime: 2022-09-07 19:38:00
+LastEditTime: 2022-09-10 21:17:44
 Copyright (c) 2022 by LeslieLiu16 2596943294@qq.com, All Rights Reserved. 
 '''
 from Graph import *
@@ -20,22 +20,38 @@ class Search:
         '''
         深度优先搜索方法
         '''
+        from_vertex.is_visited = True
+        # self.path.append(from_vertex.name)
         neibors = self.graph.get_neibors(from_vertex)
+
+        for neibor in neibors:
+            self.stack.append(self.graph.find_vertex(neibor))
+
+        for neibor in self.stack:
+            if not neibor.is_visited:
+                self.path.append(neibor.name)
+                self.depth_first_search(neibor, to_vertex)
+            else:
+                continue
+
 
     def breadth_first_search(self, from_vertex, to_vertex):
         '''
         广度优先搜索算法
         '''
+        from_vertex.is_visited = True
+        # self.path.append(from_vertex.name)
         neibors = self.graph.get_neibors(from_vertex)
-        for neibor in neibors:
-            _neibor = self.graph.find_vertex(neibor)
-            if _neibor.idx != to_vertex:
-                self.path.append(to_vertex.name)
-            else:
-                self.path.append(from_vertex.name)
-                self.breadth_first_search(_neibor,to_vertex)
-        print(self.path)
 
+        for neibor in neibors:
+            self.stack.append(self.graph.find_vertex(neibor))
+
+        for neibor in self.stack:
+            if not neibor.is_visited:
+                self.path.append(neibor.name)
+                self.depth_first_search(neibor, to_vertex)
+            else:
+                continue
 
     def greedy_best_first_search(self, from_vertex, to_vertex):
         '''

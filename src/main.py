@@ -1,7 +1,7 @@
 '''
 Author: LeslieLiu16 2596943294@qq.com
 Date: 2022-09-07 16:49:01
-LastEditTime: 2022-09-08 21:33:39
+LastEditTime: 2022-09-10 21:18:16
 Copyright (c) 2022 by LeslieLiu16 2596943294@qq.com, All Rights Reserved. 
 '''
 
@@ -18,7 +18,7 @@ if __name__ == '__main__':
         'Bucharest', 'Glurgiu', 'Urziceni', 'Vasful', 'iasi', 'Neatmt',
         'Hirsova', 'Eforie'
     ]
-    
+
     for _name in names:
         v = Vertex(_name)
         graph.add_vertex(v)
@@ -34,16 +34,16 @@ if __name__ == '__main__':
         v1 = graph.find_vertex(i[1])
         graph.add_edge(v, v1, weight=i[2])
 
-    # print(graph.matrix)
+    print(graph.matrix)
     # print(len(graph.matrix))
     # graph.add_vertex(0)
     # print(graph.get_weight(0,12))
     # print(graph.get_weight(0,1))
-    v = graph.find_vertex(0)
-    v1 = graph.find_vertex(1)
+    # v = graph.find_vertex(0)
+    # v1 = graph.find_vertex(12)
 
     # print(graph.get_neibors(v))
-    search = Search(graph=graph)
+    # search = Search(graph=graph)
     # search.uniform_cost_search(from_vertex=v, to_vertex=v1)
     # search.greedy_best_first_search(from_vertex=v, to_vertex=v1)
-    search.breadth_first_search(from_vertex=v, to_vertex=v1)
+    # search.depth_first_search(from_vertex=v, to_vertex=v1)

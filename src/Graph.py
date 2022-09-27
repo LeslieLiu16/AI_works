@@ -1,7 +1,7 @@
 '''
 Author: LeslieLiu16 2596943294@qq.com
 Date: 2022-09-07 16:30:23
-LastEditTime: 2022-09-07 18:50:18
+LastEditTime: 2022-09-10 20:29:54
 Copyright (c) 2022 by LeslieLiu16 2596943294@qq.com, All Rights Reserved. 
 '''
 
@@ -80,7 +80,7 @@ class Graph:
             if self.matrix[row][vertex.idx] != -1:
                 neibors.append(row)
         # 排序所有的结构
-        neibors.sort()
+        # neibors.sort()
         return neibors
 
 
