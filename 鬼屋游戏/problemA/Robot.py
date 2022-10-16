@@ -1,11 +1,6 @@
-'''
-Author: LeslieLiu16 2596943294@qq.com
-Date: 2022-09-27 11:11:34
-LastEditTime: 2022-10-01 14:22:36
-Copyright (c) 2022 by LeslieLiu16 2596943294@qq.com, All Rights Reserved. 
-'''
 import pygame
 import random
+from search import search
 
 pygame.init()
 
@@ -15,12 +10,15 @@ class Robot():
     机器人类
     '''
     def __init__(self) -> None:
-        self.image = pygame.image.load("./src/robot.jpg")
+        self.image = pygame.image.load("E:\Program\人工智能技术基础作业\鬼屋游戏\problemA\src/robot.jpg")
         self.image = pygame.transform.scale(self.image, (90, 90))
-        self.x_loc = 185
-        self.y_loc = 555
         self.start_x = 1
         self.start_y = 1
+        self.x_loc = (self.start_x-1) * 100 + 185
+        self.y_loc = 655-((self.start_y) * 100)
+        self.face_to = 0
+        self.map_x = 11
+        self.map_y = 1
 
     def action(self, event, screen):
         '''
@@ -63,25 +61,25 @@ class Robot():
             screen.blit(self.image, (self.x_loc, self.y_loc))
         pygame.display.update()
 
-    def is_collided(self, gho1, gho2, screen):
+    def is_collided(self, gho1, gho2):
         '''
         判断是否与幽灵相碰
         '''
         if (self.x_loc == gho1.x_loc and self.y_loc == gho1.y_loc) or (
                 self.x_loc == gho2.x_loc and self.y_loc == gho2.y_loc):
-            screen.blit(pygame.image.load('./src/loss.jpg'), (350, 200))
+            # screen.blit(pygame.image.load('./src/loss.jpg'), (350, 200))
 
             return True
 
-    def is_won(self, screen):
+    def is_won(self):
         '''
         判断是否胜利
         '''
-        if self.x_loc == 685 and self.y_loc == 55:
-            screen.blit(pygame.image.load('./src/win.jpg'), (250, 180))
-        return True
+        return self.x_loc == 685 and self.y_loc == 55
+            # screen.blit(pygame.image.load('./src/win.jpg'), (250, 180))
+        # return True
 
-    def sensitor(self, gho1,gho2):
+    def sensitor(self, gho1, gho2):
         '''探测器'''
         dis1 = abs(self.start_x-gho1.start_x)+abs(self.start_y-gho1.start_y)
         dis2 = abs(self.start_x-gho2.start_x)+abs(self.start_y-gho2.start_y)
@@ -157,3 +155,23 @@ class Robot():
                 screen.blit(self.image, (self.x_loc, self.y_loc))
                 return choose
             pygame.display.update()
+
+
+    
+    def auto_move(self,gho1,gho2):
+        '''自动走'''
+
+        # self.start_x = search(self,gho1,gho2)[count][0]
+        # self.start_y = search(self,gho1,gho2)[count][1]
+        # print(search(self,gho1,gho2)[count][1])
+        # print(search(self,gho1,gho2)[count][1])
+        # print('count=',count)
+        return search(self,gho1,gho2)
+
+
+
+
+        
+
+        
+

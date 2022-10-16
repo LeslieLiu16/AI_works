@@ -1,9 +1,3 @@
-'''
-Author: LeslieLiu16 2596943294@qq.com
-Date: 2022-09-27 12:11:09
-LastEditTime: 2022-10-01 14:10:17
-Copyright (c) 2022 by LeslieLiu16 2596943294@qq.com, All Rights Reserved. 
-'''
 from random import randint
 import pygame
 
@@ -18,8 +12,6 @@ class Ghost():
         self.face_to = randint(1, 4)  # 有四个方向
         self.image = pygame.transform.scale(
             pygame.image.load('./src/Ghost.jpg'), (90, 90))
-        # print(self.start_x)
-        # print(self.start_y)
         self.x_loc = (self.start_x-1) * 100 + 185
         self.y_loc = 655-((self.start_y) * 100)
 

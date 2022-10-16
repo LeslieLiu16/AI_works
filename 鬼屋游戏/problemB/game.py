@@ -1,16 +1,11 @@
-'''
-Author: LeslieLiu16 2596943294@qq.com
-Date: 2022-09-27 14:44:01
-LastEditTime: 2022-10-01 14:37:51
-Copyright (c) 2022 by LeslieLiu16 2596943294@qq.com, All Rights Reserved. 
-'''
 import sys
 from random import randint
 import random
 import pygame
+import time
 from Robot import Robot
 from Ghost import Ghost
-
+  
 
 def init_game():
     '''
@@ -30,7 +25,6 @@ def draw_map():
     '''
     绘制地图
     '''
-    arealist = [[None for i in range(8)] for j in range(8)]
     for i in range(1, 7):
         for j in range(1, 7):
             pygame.draw.rect(surface=screen,
@@ -38,11 +32,18 @@ def draw_map():
                              rect=((i - 1) * 100 + 180, (j - 1) * 100 + 50,
                                    100, 100),
                              width=1)
-
-            # arealist[i][j] = Area(screen,
-            #                       ((i - 1) * 100 + 180 + i * 100 + 180) / 2,
-            #                       ((j - 1) * 100 + 50 + j * 100 + 50) / 2)
-
+    pygame.draw.line(surface = screen,color='red',start_pos=(480,50),end_pos=(480,150),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(280,150),end_pos=(380,150),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(280,150),end_pos=(280,250),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(580,150),end_pos=(580,350),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(480,250),end_pos=(580,250),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(280,350),end_pos=(480,350),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(580,350),end_pos=(680,350),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(180,450),end_pos=(280,450),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(380,450),end_pos=(480,450),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(580,450),end_pos=(580,550),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(380,550),end_pos=(380,650),width=8)
+    pygame.draw.line(surface = screen,color='red',start_pos=(680,550),end_pos=(780,550),width=8)
     img_exit = pygame.image.load("./src/exit.jpg")
     img_exit = pygame.transform.scale(img_exit, (95, 95))
     screen.blit(img_exit, (500 + 180 + 2, 50 + 2))
@@ -85,12 +86,13 @@ def creat_ghost():
     return gho1, gho2
 
 
-if __name__ == '__main__':
+def main():
+    '''主函数'''
     draw_map()
     rob = creat_robot()
     gho1, gho2 = creat_ghost()
-    print(rob.sensitor(gho1,gho2))
-    trace_list = []
+    move_list = rob.auto_move(gho1,gho2)
+    count = 0
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -101,28 +103,32 @@ if __name__ == '__main__':
                 rob.is_won(screen)
                 screen.fill('white')
                 draw_map()
-                # rob.action(event, screen)
                 if rob.is_collided(gho1, gho2, screen):
                     break
                 else:
-
-                    choose = rob.r_move(rob.sensitor(gho1,gho2),trace_list,screen,event)
-                    print(choose)
+                    rob.start_x = move_list[count][0]
+                    rob.start_y = move_list[count][1]
+                    rob.x_loc = (rob.start_x-1) * 100 + 185
+                    rob.y_loc = 655-((rob.start_y) * 100)
+                    count+=1
+                    screen.blit(rob.image,(rob.x_loc,rob.y_loc))
                     gho1.move(screen)
-                    print('幽灵1',gho1.start_x,gho1.start_y)
                     gho2.move(screen)
-                    print('幽灵2',gho2.start_x,gho2.start_y)
-                    rob.is_won(screen)
-                    rob.is_collided(gho1, gho2, screen)
-                    robot_last_pos = (rob.start_x,rob.start_y)
-                    rob.start_x = choose[1][0]
-                    rob.start_y = choose[1][1]
-                    print('寒意浓度', rob.sensitor(gho1,gho2))
-                    robot_now_pos = (rob.start_x,rob.start_y)
-                    if robot_now_pos[0] - robot_last_pos[0] == 1:
-                        trace_list.append('右')
-                    if robot_now_pos[1] - robot_last_pos[1] == 1:
-                        trace_list.append('上')        
+                    if rob.is_collided(gho1, gho2, screen):
+                        screen.blit(pygame.image.load('./src/loss.jpg'), (350, 200))
+                        time.sleep(1)
+                        screen.fill('white')
+                        main()
+                    elif rob.is_won(screen):
+                        screen.blit(pygame.image.load('./src/win.jpg'), (350, 200))
+                        time.sleep(1)
+                        screen.fill('white')
+                        main()     
         pygame.display.flip()
+
+
+
+if __name__ == '__main__':
+    main()
 
 
